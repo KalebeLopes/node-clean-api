@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",   // local pra gerar o codigo js
+    "module": "commonjs", // import/export
+    "target": "es2019",   // gerar o codigo js no padrao es2019
+    "esModuleInterop": true,
+    "allowJs": true
+  }
+}
