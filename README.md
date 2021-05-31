@@ -1,0 +1,2 @@
+## clean-node-api
+Treinamento com objetivo de aprimorar técnicas de criação de API's utilizando uma arquitetura bem definida e desacoplada. Utilizo TDD como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, princípios de SOLID e, sempre que possível, aplico Design Patterns para resolver alguns problemas comuns
