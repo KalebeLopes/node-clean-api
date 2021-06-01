@@ -1,18 +1,11 @@
-interface HttpRequest {
-  body: {
-    name?: String,
-    email?: String,
-    password?: String,
-    passwordConfirmation?: String
-  }
-}
+import { HttpRequest, HttpResponse } from '../protocols/http'
 
 export class SignUpController {
 
-  handle(httpRequest: HttpRequest): any {
+  handle(httpRequest: HttpRequest): HttpResponse {
     const filds = ['name', 'email', 'password', 'passwordConfirmation']
     let obj
-
+    
     filds.forEach(key => {
       if(!httpRequest.body[key]) {
         obj =  {
