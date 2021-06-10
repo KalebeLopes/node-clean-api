@@ -7,16 +7,26 @@ interface SutTypes {
   emailValidatorStub: EmailValidator
 }
 
-const makeSut = (): SutTypes => { // cria instâncias do emailValidator e do SignUpCotroller
+const makeEmailValidator = (): EmailValidator => { // factor criar instancia do emailValidator stub
   class EmailValidatorStub implements EmailValidator{
     isValid(email: string): boolean {
       return true
     }
   }
+  return new EmailValidatorStub
+}
+const makeEmailValidatorWithError = (): EmailValidator => { // factor criar instancia do emailValidator com error
+  class EmailValidatorStub implements EmailValidator{
+    isValid(email: string): boolean {
+      throw new Error()
+    }
+  }
+  return new EmailValidatorStub
+}
 
-  const emailValidatorStub = new EmailValidatorStub()
+const makeSut = (): SutTypes => { // cria instância do SignUpCotroller
+  const emailValidatorStub = makeEmailValidator()
   const sut = new SignUpController(emailValidatorStub)
-
   return {
     sut,
     emailValidatorStub
@@ -117,24 +127,16 @@ describe('SignUp Controller', () => {
   })
 
   test('Should return 500 if an EmailValdiator throws', () => {
-    class EmailValidator implements EmailValidator{
-      isValid(email: string): boolean {
-        throw new Error()
-      }
-    }
-  
-    const emailValidator = new EmailValidator()
-    const sut = new SignUpController(emailValidator)
-
+    const emailValidatorStub = makeEmailValidatorWithError()
+    const sut = new SignUpController(emailValidatorStub)
     const httpRequest = { 
       body: {
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password',
         passwordConfirmation: 'any_password'
-      }
+      } 
     }
-
     const httpResponse = sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
